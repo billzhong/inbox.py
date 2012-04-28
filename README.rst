@@ -3,7 +3,7 @@ Inbox.py: SMTP Server for Humans
 
 This is simplest SMTP server you'll ever see.
 
-And it's extremely fast. One instance easily handles 1000 emails/second.
+It's quite quick. One instance should handle over one thousand emails per second.
 
 
 Usage
