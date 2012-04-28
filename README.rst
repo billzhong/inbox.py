@@ -25,12 +25,12 @@ Give your app an inbox easily::
 
 You can also defer to the commandline::
 
-    # Dispatch argument parser.  (in server.py)  
-    inbox.dispatch()
+    if __name__ == '__main__':
+        inbox.dispatch()
 
 Run the server::
 
-    $ server.py 0.0.0.0 4467
+    $ dasinbox.py 0.0.0.0 4467
     [2012-04-28 07:31] INFO: inbox: Starting SMTP server at 0.0.0.0:4467
 
 
