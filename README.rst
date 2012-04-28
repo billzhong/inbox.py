@@ -28,7 +28,7 @@ You can also defer to the commandline::
     if __name__ == '__main__':
         inbox.dispatch()
 
-Run the server::
+::
 
     $ dasinbox.py 0.0.0.0 4467
     [2012-04-28 07:31] INFO: inbox: Starting SMTP server at 0.0.0.0:4467
