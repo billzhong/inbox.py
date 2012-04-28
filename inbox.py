@@ -1,65 +1,64 @@
 # -*- coding: utf-8 -*-
 
+import argparse
+
 import gevent
-from gevent.socket import create_connection
-from gevent.coros import Semaphore
+import gevent.monkey
+
+from logbook import Logger
+
+gevent.monkey.patch_select()
+
+import smtpd
+import asyncore
 
 
-from ginkgo import Service
+log = Logger(__name__)
 
 
+class InboxServer(smtpd.SMTPServer, object):
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(description='Open a public Inbox server.')
-    parser.add_argument('port', metavar='port', type=int,
-                       help='local port to bind')
-    parser.add_argument('--name', dest='name', metavar='name',
-                       default='email.py',
-                       help='name of the tunnel (default: randomly generate)')
-    parser.add_argument('--broker', dest='broker', metavar='address',
-                       default='localtunnel.com',
-                       help='tunnel broker hostname (default: localtunnel.com)')
-    args = parser.parse_args()
+    def __init__(self, handler, *args, **kwargs):
+        super(InboxServer, self).__init__(*args, **kwargs)
+        self._handler = handler
 
-    client = InboxServer(args.port, args.name, args.broker)
-    client.serve_forever()
+    def process_message(self, peer, mailfrom, rcpttos, data):
+        log.info('Collating message from {0}'.format(mailfrom))
+        log.debug(dict(to=rcpttos, sender=mailfrom, body=data))
+        return self._handler(to=rcpttos, sender=mailfrom, body=data)
 
-class InboxServer(Service):
 
-    def __init__(self, local_port, name, broker_address):
-        self.local_port = local_port
-        # self.ws = WebSocketClient('http://%s/t/%s' % (broker_address, name))
-        self.connections = {}
-        self._send_lock = Semaphore()
+class Inbox(object):
+    """A simple SMTP Inbox."""
 
-    def do_start(self):
-        self.ws.connect()
-        self.spawn(self.listen)
-        #gevent.spawn(self.visual_heartbeat)
+    def __init__(self, port=None, address=None):
+        self.port = port
+        self.address = address
+        self.collator = None
 
-    def visual_heartbeat(self):
-        while True:
-            print "."
-            gevent.sleep(1)
+    def collate(self, collator):
+        self.collator = collator
+        return collator
 
-    def listen(self):
-        while True:
-            msg = self.ws.receive(msg_obj=True)
-            if msg is None:
-                print "Trying to stop"
-                self.stop()
-            if msg.is_text:
-                # parsed = json.loads(str(msg))
-                print str(msg)
-            #     conn_id, event = parsed[0:2]
-            #     if event == 'open':
-            #         self.local_open(conn_id)
-            #     elif event == 'closed':
-            #         self.local_close(conn_id)
-            # elif msg.is_binary:
-            #     # conn_id, data = decode_data_packet(msg.data)
-            #     self.local_send(conn_id, data)
+    def serve(self, port=None, address=None):
+        port = port or self.port
+        address = address or self.address
 
-if __name__ == '__main__':
-    main()
+        log.info('Starting SMTP server at {0}:{1}'.format(address, port))
+
+        server = InboxServer(self.collator, (address, port), None)
+
+        try:
+            asyncore.loop()
+        except KeyboardInterrupt:
+            log.info('Cleaning up')
+
+    def dispatch(self):
+        parser = argparse.ArgumentParser(description='Run an Inbox server.')
+
+        parser.add_argument('addr', metavar='addr', type=str, help='addr to bind to')
+        parser.add_argument('port', metavar='port', type=int, help='port to bind to')
+
+        args = parser.parse_args()
+
+        self.serve(port=args.port, address=args.addr)
