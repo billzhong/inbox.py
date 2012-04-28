@@ -23,9 +23,9 @@ Give your app an inbox easily::
     inbox.serve(address='0.0.0.0', port=4467)
 
 
-You can also defer to the commandline. ( ``server.py`` ) ::
+You can also defer to the commandline::
 
-    # Dispatch argument parser.
+    # (in server.py) Dispatch argument parser.
     inbox.dispatch()
 
 Run the server::
