@@ -1,24 +1,26 @@
 Inbox.py: SMTP Server for Humans
 ================================
 
-This project strives to be the simplest SMTP application possible.
+This is simplest SMTP server you'll ever see.
+
+And it's extremely fast. One instance easily handles 1000 emails/second.
 
 
 Usage
 -----
 
-Handle incoming emails::
+Give your app an inbox easily::
 
     from inbox import Inbox
 
     inbox = Inbox()
 
     @inbox.collate
-    def handle(to, from, body)
+    def handle(to, sender, body)
         ...
 
     # Bind directly.
-    inbox.serve(port=4467)
+    inbox.serve(address='0.0.0.0', port=4467)
 
     # Argument parser.
     # inbox.dispatch()
@@ -27,6 +29,5 @@ Handle incoming emails::
 Powered By
 ----------
 
-- Ginkgo
 - Gevent
 - Good Intentions
