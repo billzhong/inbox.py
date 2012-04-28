@@ -25,7 +25,7 @@ Give your app an inbox easily::
 
 You can also defer to the commandline::
 
-    # (in server.py) Dispatch argument parser.
+    # Dispatch argument parser.  (in server.py)  
     inbox.dispatch()
 
 Run the server::
