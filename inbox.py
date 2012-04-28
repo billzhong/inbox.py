@@ -17,6 +17,7 @@ log = Logger(__name__)
 
 
 class InboxServer(smtpd.SMTPServer, object):
+    """Logging-enabled SMTPServer instance with handler support."""
 
     def __init__(self, handler, *args, **kwargs):
         super(InboxServer, self).__init__(*args, **kwargs)
@@ -37,10 +38,12 @@ class Inbox(object):
         self.collator = None
 
     def collate(self, collator):
+        """Function decorator. Used to specify inbox handler."""
         self.collator = collator
         return collator
 
     def serve(self, port=None, address=None):
+        """Serves the SMTP server on the given port and address."""
         port = port or self.port
         address = address or self.address
 
@@ -54,6 +57,7 @@ class Inbox(object):
             log.info('Cleaning up')
 
     def dispatch(self):
+        """Command-line dispatch."""
         parser = argparse.ArgumentParser(description='Run an Inbox server.')
 
         parser.add_argument('addr', metavar='addr', type=str, help='addr to bind to')
