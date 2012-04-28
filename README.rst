@@ -7,7 +7,7 @@ This project strives to be the simplest SMTP application possible.
 Usage
 -----
 
-Handle incoming emails:
+Handle incoming emails::
 
     from inbox import Inbox
 
@@ -22,10 +22,6 @@ Handle incoming emails:
 
     # Argument parser.
     # inbox.dispatch()
-
-
-
-
 
 
 Powered By
