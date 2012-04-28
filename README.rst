@@ -26,8 +26,9 @@ Give your app an inbox easily::
     # inbox.dispatch()
 
 
-Powered By
-----------
+Installation
+------------
 
-- Gevent
-- Good Intentions
+Installing Inbox.py is simple::
+
+    $ pip install inbox

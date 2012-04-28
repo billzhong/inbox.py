@@ -19,7 +19,7 @@ if sys.argv[-1] == 'publish':
 
 settings.update(
     name='inbox',
-    version='0.0.2',
+    version='0.0.3',
     description='SMTP for Humans.',
     long_description=open('README.rst').read(),
     author='Kenneth Reitz',
@@ -39,7 +39,6 @@ settings.update(
         'Programming Language :: Python :: 2.7',
     )
 )
-
 
 
 setup(**settings)
