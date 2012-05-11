@@ -16,7 +16,7 @@ Give your app an inbox easily::
     inbox = Inbox()
 
     @inbox.collate
-    def handle(to, sender, body):
+    def handle(to, sender, subject, body):
         ...
 
     # Bind directly.
