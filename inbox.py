@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+from email.parser import Parser
 
 import gevent
 import gevent.monkey
@@ -25,8 +26,9 @@ class InboxServer(smtpd.SMTPServer, object):
 
     def process_message(self, peer, mailfrom, rcpttos, data):
         log.info('Collating message from {0}'.format(mailfrom))
-        log.debug(dict(to=rcpttos, sender=mailfrom, body=data))
-        return self._handler(to=rcpttos, sender=mailfrom, body=data)
+        subject = Parser().parsestr(data)['subject']
+        log.debug(dict(to=rcpttos, sender=mailfrom, subject=subject, body=data))
+        return self._handler(to=rcpttos, sender=mailfrom, subject=subject, body=data)
 
 
 class Inbox(object):
