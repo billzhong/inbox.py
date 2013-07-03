@@ -26,7 +26,7 @@ settings.update(
     author_email='me@kennethreitz.com',
     url='https://github.com/kennethreitz/inbox.py',
     py_modules= ['inbox',],
-    install_requires=['gevent', 'logbook', 'argparse'],
+    install_requires=['logbook', 'argparse'],
     license='BSD',
     classifiers=(
         # 'Development Status :: 5 - Production/Stable',

@@ -1,9 +1,9 @@
 Inbox.py: SMTP Server for Humans
 ================================
 
-This is simplest SMTP server you'll ever see. It's asynchronous. 
+This is the simplest SMTP server you'll ever see. It's asynchronous. 
 
-One instance should handle over one thousand emails per second, thanks to Gevent.
+One instance should handle over one thousand emails per second.
 
 
 Usage

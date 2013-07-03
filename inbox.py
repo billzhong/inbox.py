@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import smtpd
+import asyncore
 import argparse
 from email.parser import Parser
 
-import gevent
-import gevent.monkey
-
 from logbook import Logger
-
-gevent.monkey.patch_select()
-
-import smtpd
-import asyncore
 
 
 log = Logger(__name__)
