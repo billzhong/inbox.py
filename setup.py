@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 settings.update(
-    name='inbox',
+    name='inbox.py',
     version='0.0.6',
     description='SMTP for Humans.',
     long_description=open('README.rst').read(),
