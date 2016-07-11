@@ -39,4 +39,4 @@ Installation
 
 Installing Inbox.py is simple::
 
-    $ pip install inbox
+    $ pip install inbox.py
